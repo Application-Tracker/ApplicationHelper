@@ -3,6 +3,36 @@ const db = require('../server/models/appModel');
 const PG_URI = db.URI;
 const userController = {};
 
+//new user controller
+userController.newUser = (req, res, next) => {
+  console.log('in userController.newUser', req.body);
+  const { username, password } = req.body;
+  // validate user and password - if either are missing/invalid, send error message
+  if (!username || !password) {
+    return res.status(400).send('All fields are required.');
+  }
+  //if data valid, insert new data into table -- will encrypt password eventuall
+  //didn't include _id because I think that will be auto-generated -- I may be mistaked
+  const newUserQuery = `INSERT into users (username, password) VALUES ($1, $2)`;
+
+  //I believe this is the corrected syntax for using paramterized queries
+  db.query(newUserQuery, [username, password])
+    //should not get data back -- should catch any errors though
+    .then((err, queriedValue) => {
+      if (err) {
+        return next({
+          log: 'Error in userController.newUser',
+          message: { err: 'Error in userController.newUser'},
+        });
+      } else {
+        //
+      }
+    })
+}
+
+
+
+
 //login controler
 userController.login = (req, res, next) => {
   console.log('in userController.auth', req.body);

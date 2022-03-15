@@ -33,7 +33,7 @@ router.get('/user/profile', /*middleware to handle login*/ (req, res) => {
 });
 
 //delete user request 
-router.post('/user/delete:id', /*middleware to handle delete app*/ (req, res) => {
+router.delete('/user/delete:id', /*middleware to handle delete app*/ (req, res) => {
     console.log('in delete app in router');
     //should return status 200 after successfully deleting user from database -- will need ID to delete it
     res.sendStatus(200);
@@ -49,7 +49,7 @@ router.post('/app/new', /*middleware to handle create new app*/ (req, res) => {
 });
 
 //delete app request
-router.post('/app/delete:id', /*middleware to handle delete app*/ (req, res) => {
+router.delete('/app/delete:id', /*middleware to handle delete app*/ (req, res) => {
     console.log('in delete app in router');
     //should return status 200 after successfully deleting app from database -- will need ID to delete it
     res.sendStatus(200);

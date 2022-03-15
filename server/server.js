@@ -3,6 +3,9 @@ const express = require('express');
 const PORT = 3000; 
 const app = express();
 
+// allows us to use .env files across server 
+require('dotenv').config();
+
 app.use(express.json());
 
 // app.use(express.static(path.resolve(__dirname, '../build')));

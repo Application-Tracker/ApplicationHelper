@@ -25,7 +25,7 @@ userController.newUser = (req, res, next) => {
           message: { err: 'Error in userController.newUser'},
         });
       } else {
-        //
+        return next();
       }
     })
 }

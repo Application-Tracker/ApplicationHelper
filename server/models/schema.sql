@@ -2,8 +2,8 @@
 
 CREATE TABLE users (
   _id serial PRIMARY KEY,
-  username unique NOT NULL VARCHAR(50), 
-  password NOT NULL VARCHAR(100)
+  username VARCHAR(50) UNIQUE NOT NULL, 
+  password VARCHAR(100) NOT NULL 
 )
 
 CREATE TABLE applications (

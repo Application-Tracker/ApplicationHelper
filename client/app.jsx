@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar.jsx';
+=======
+import React from 'react';
+>>>>>>> 484f3d7220dec31d699b5ae58481476f34ed4dfe
 import MainContainer from './components/MainContainer.jsx';
+import Header from './components/Header.jsx';
 
 const App = () => {
 
@@ -20,7 +25,10 @@ const App = () => {
   }, [])
 
   return (
-    <div>Hello this is App.jsx!</div>
+    <section>
+      <Header />
+      <MainContainer />
+    </section>
   )
 };
 

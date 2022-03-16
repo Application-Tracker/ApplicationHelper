@@ -134,6 +134,7 @@ userController.verifyToken = (req, res, next) => {
   }
   jwt.verify(req.cookies.jwt, JWT_SECRET, (err, decoded) => {
     if (err) { 
+      res.locals.authStatus = authStatus;
       return next({ message: { err: 'Error in userController verify token'}})
     }
     // decoded will be undefined if tokens do not match 
@@ -144,6 +145,7 @@ userController.verifyToken = (req, res, next) => {
       res.status(200);
       return next();
     } else {
+      res.locals.authStatus = authStatus;
       res.status(400);
       return next({ message: { err: 'Not authenticated' }})
     }

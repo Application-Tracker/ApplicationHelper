@@ -8,3 +8,15 @@ html, body {
   color: $green;
   background-color: $white;
 }
+
+.navbar {
+  padding: 1em;
+  position: fixed;
+}
+
+.ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  line-height: 2;
+}

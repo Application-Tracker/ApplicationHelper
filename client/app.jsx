@@ -1,10 +1,13 @@
 import React from 'react';
-import Navbar from './components/Navbar.jsx';
 import MainContainer from './components/MainContainer.jsx';
+import Header from './components/Header.jsx';
 
 const App = () => {
   return (
-    <div>Hello this is App.jsx!</div>
+    <section>
+      <Header />
+      <MainContainer />
+    </section>
   )
 };
 

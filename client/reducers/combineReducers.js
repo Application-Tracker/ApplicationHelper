@@ -3,7 +3,7 @@ import pageRouteReducer from './pageRouteReducer';
 import textFieldReducer from './textFieldReducer';
 
 const reducers = combineReducers({
-  navigation: pageRouteReducer,
+  pageRouter: pageRouteReducer,
   textField: textFieldReducer,
 });
 

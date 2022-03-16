@@ -42,6 +42,7 @@ const mapDispatchToProps = (dispatch) => ({
       fetch(url, options)
         .then(res => res.json())
         .then(data => {
+          console.log(data)
           if (data.valid) props.toLandingPageAction();
           else props.createAccountAction();
         });
@@ -56,7 +57,7 @@ const mapDispatchToProps = (dispatch) => ({
           <p>Create an account and get started today!</p>
         </header>
 
-          <form id = "user-form" onSubmit = {(e) => props.handleSignup(e)}>
+          <form onSubmit = {(e) => props.handleSignup(e)}>
               <label htmlFor = "user"></label><br/>
               <input className = "input-box" 
               type = "text" 
@@ -79,12 +80,7 @@ const mapDispatchToProps = (dispatch) => ({
                   setPassword(e.target.value);
                 }}
               />
-              <button id = "button-signup" type = "submit">Create Account</button>
-              {props.validUser === false ? (
-            <p className="validation-msg">Username is already taken</p>
-          ) : (
-            <p className="hidden"></p>
-          )}
+             <input type="submit" value="Create Account" />
           </form>
       </div>
   </body>

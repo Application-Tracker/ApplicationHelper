@@ -25,10 +25,10 @@ const PageRouter = (state = initialState, action) => {
         page: 'login',
       };
 
-    case types.PROFILE:
+    case types.LANDING_PAGE:
       return {
         ...state,
-        page: 'profile',
+        page: 'landingPage',
       };
 
     default:

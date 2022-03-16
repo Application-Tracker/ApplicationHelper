@@ -10,23 +10,23 @@ const router = express.Router();
 //post request for creating new user in database
 //if true, will redirect to profile page
 //if false, will send 'Account creation failed'
-router.post('/user/register', /*middleware to handle registering*/ (req, res) => {
+router.post('/user/register', userController.newUser, (req, res) => {
   console.log('in register user in router');
   //will need to change following line, once authenticated, user will be redirected to user home page
-  res.sendStatus(200);
+  res.status(200).json(res.locals);
 });
 
 //post request for logging in
 //if true, will redirect to profile page
 //if false, will send 'Login credentials are invalid'
-router.post('/user/login', /*middleware to handle login*/ (req, res) => {
+router.post('/user/login', userController.login, (req, res) => {
   console.log('in login in router');
   //will need to change following line, once authenticated user will be redirected to user home page
   res.sendStatus(200);
 });
 
-//get request for fetching user profile
-router.get('/user/profile', /*middleware to handle login*/ (req, res) => {
+//get request for fetching landingPage
+router.get('/user/landingPage', /*middleware to handle login*/ (req, res) => {
   console.log('in profile in router');
   //next line needs to be changes, will return status 200 once profile page successfully fetched and serve profile page
   res.sendStatus(200);
@@ -56,8 +56,10 @@ router.delete('/app/delete:id', /*middleware to handle delete app*/ (req, res) =
 });
 
 //update app request
-router.update('/app/update', /*middleware to handle delete app*/ (req, res) => {
+router.patch('/app/update', /*middleware to handle delete app*/ (req, res) => {
   console.log('in update in router');
   //should return status 200 after successfully updating app in database
   res.sendStatus(200);
 });
+
+module.exports = router; 

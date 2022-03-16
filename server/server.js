@@ -8,6 +8,7 @@ const router = require('./router');
 require('dotenv').config();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //use router for anthing to /api endpoint
 app.use('/api', router);

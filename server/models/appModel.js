@@ -1,6 +1,10 @@
 const { Pool, Client } = require('pg');
 
+require('dotenv').config();
 const URI = process.env.PG_URI;
+console.log('process.env', process.env.PG_URI);
+
+// const URI = "postgres://pedvvzce:GAc8RXSy3V49zQFgXyEW4veNIqQZAzSK@kashin.db.elephantsql.com/pedvvzce";
 
 const pool = new Pool({
   connectionString: URI,
@@ -12,6 +16,7 @@ const pool = new Pool({
 // });
 
 // client.connect();
+
 
 
 //export object that contains query property -- is a function that returns invocation of pool.query() after logging query

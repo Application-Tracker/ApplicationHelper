@@ -63,7 +63,7 @@ const mapDispatchToProps = (dispatch) => ({
               id = "user" 
               name = "user" 
               placeholder = "Create username"
-              value={props.state.username}
+              value={props.username}
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
@@ -74,7 +74,7 @@ const mapDispatchToProps = (dispatch) => ({
                 id="password"
                 name="password"
                 placeholder="Create password"
-                value={props.state.password}
+                value={props.password}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}

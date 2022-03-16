@@ -82,6 +82,12 @@ userController.login = (req, res, next) => {
             res.locals.validUser = false;
             return res.status(400).send('Invalid credentials, please try logging in again.');
           }
+        })
+        .catch(e => {
+          return next({
+            log: 'Error in userController.login',
+            message: { err: 'Error in bcrypt login'},
+          })
         });
     })
     .catch((err) => {
@@ -95,27 +101,3 @@ userController.login = (req, res, next) => {
 
 module.exports = userController;
 
-
-/*
-
- Result {
-[1]   command: 'INSERT',
-[1]   rowCount: 1,
-[1]   oid: 0,
-[1]   rows: [],
-[1]   fields: [],
-[1]   _parsers: undefined,
-[1]   _types: TypeOverrides {
-[1]     _types: {
-[1]       getTypeParser: [Function: getTypeParser],
-[1]       setTypeParser: [Function: setTypeParser],
-[1]       arrayParser: [Object],
-[1]       builtins: [Object]
-[1]     },
-[1]     text: {},
-[1]     binary: {}
-[1]   },
-[1]   RowCtor: null,
-[1]   rowAsArray: false
-}
-*/

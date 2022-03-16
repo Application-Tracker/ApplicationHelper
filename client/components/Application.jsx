@@ -1,5 +1,6 @@
 import React from 'react';
 
+// individual application cards
 const Application = () => {
   return (
     <div className='application'>

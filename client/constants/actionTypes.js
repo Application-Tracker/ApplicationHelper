@@ -9,4 +9,5 @@ export const GET_USERNAME = 'GET_USERNAME';
 export const LOGIN = 'LOGIN';
 export const LOGIN_PAGE = 'LOGIN_PAGE';
 export const LANDING_PAGE = 'LANDING_PAGE';
+export const NEW_APP = 'NEW_APP'
 export const SIGN_UP = 'SIGN_UP';

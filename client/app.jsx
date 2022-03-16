@@ -23,7 +23,7 @@ const App = () => {
       .then(res => res.json())
       .then(payload => {
         if (payload.success === true) {
-          navigate('/user')
+          navigate('/newapp')
           // could make isAuthenticated part of global redux state
           setIsAuthenticated(true)
           // could redirect here 
@@ -36,11 +36,13 @@ const App = () => {
   return (
     <Routes> 
       <Route index element = {<Login/>}/>
-      <Route path='/signup' element={<Signup />}/>
-      <Route path='/user' element={<Layout/>}>
+      <Route path='signup' element={<Signup />}/>
+      <Route path='applications' element={<AppContainer />}/>
+      <Route path='newapp' element={<NewApp/>}/>
+      {/* <Route path='user' element={<Layout/>}>
         <Route path='applications' element={<AppContainer />}/>
         <Route path='newapp' element={<NewApp/>}/>
-      </Route> 
+      </Route>  */}
     </Routes>
   )
 };

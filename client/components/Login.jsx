@@ -12,8 +12,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toLandingPageAction: () => dispatch(actions.toLandingPageAction(e)),
-  authenticateUserAction: () => dispatch(actions.authenticateUserAction(e)),
+  toLandingPageAction: (e) => dispatch(actions.toLandingPageAction(e)),
+  authenticateUserAction: (e) => dispatch(actions.authenticateUserAction(e)),
 });
 
 
@@ -58,7 +58,7 @@ const Login = (props) => {
         //username and password correct, sucessful login
         if (res.status === 200) {
           props.authenticateUserAction();
-          navigate('/user');
+          navigate('/applications');
         }
       })
       .catch((err) => {

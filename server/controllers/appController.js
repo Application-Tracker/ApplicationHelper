@@ -10,19 +10,18 @@ appController.newApp = (req, res, next) => {
   ($1, $2, $3, $4, $5, $6, $7)
   RETURNING *`;
 
-  
+
 
   const params = [
     // get user Id 
     status, 
     new Date().toUTCString(),
-    Date(dateApplied).toUTCString(),
+    new Date(dateApplied).toUTCString(),
     company,
     position,  
     notes, 
     description
   ];
-
 
   db.query(query, params, (err, response) => {
     if (err) {

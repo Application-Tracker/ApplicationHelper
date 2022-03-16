@@ -1,5 +1,9 @@
 const path = require('path');
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const userController = require('./controllers/userController');
+
+
 const PORT = 3000; 
 const app = express();
 const router = require('./router');
@@ -9,6 +13,11 @@ require('dotenv').config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// allow the app to use cookieparser
+app.use(cookieParser());
+
+app.use(userController.verifyToken);
 
 //use router for anthing to /api endpoint
 app.use('/api', router);

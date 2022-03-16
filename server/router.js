@@ -19,11 +19,23 @@ router.post('/user/register', userController.newUser, (req, res) => {
 //post request for logging in
 //if true, will redirect to profile page
 //if false, will send 'Login credentials are invalid'
-router.post('/user/login', userController.login, (req, res) => {
-  console.log('in login in router');
+router.post('/user/login', userController.login, userController.generateToken, (req, res) => {
+  res.cookie('jwt', res.locals.token, { httpOnly: true });
+
   //will need to change following line, once authenticated user will be redirected to user home page
   res.status(200).json(res.locals);
 });
+
+
+router.get('/user/logout', userController.verifyToken, (req, res) => {
+  res.clearCookie('jwt');
+  return res.status(200).json({ success: true });
+})
+
+router.get('/user/authenticate', userController.verifyToken, (req, res) => {
+  return res.json({ success: true })
+})
+
 
 // //get request for fetching landingPage
 // router.get('/user/landingPage', /*middleware to handle login*/ (req, res) => {
@@ -42,10 +54,11 @@ router.post('/user/login', userController.login, (req, res) => {
 //------------------------ APP ENDPOINT REQUESTS---------------------------
 
 //post request for creating new application
-router.post('/app/new', appController.newApp, (req, res) => {
+router.post('/app/new',  userController.verifyToken, appController.newApp, (req, res) => {
   console.log('in new app in router');
+  res.status(200).json({ newAppInfo: res.locals.newAppInfo })
   //should return status 200 after successful post request to database
-  res.sendStatus(200);
+  // res.sendStatus(200);
 });
 
 // //delete app request

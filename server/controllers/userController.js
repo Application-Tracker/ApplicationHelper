@@ -1,11 +1,12 @@
 const db = require('../models/appModel.js');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
-// const PG_URI = process.env.PG_URI;
 const userController = {};
 
 const salt = Number(process.env.SALT);
+
 
 //new user controller
 userController.newUser = (req, res, next) => {
@@ -50,17 +51,17 @@ userController.newUser = (req, res, next) => {
 
 //login controler
 userController.login = (req, res, next) => {
-  console.log('in userController.auth', req.body);
+
+
   //get username and password from request body -- eventually will encrpt password 
   const { username, password } = req.body;
   //validate user and password - if either are missing/invalid, send error message
   if (!username || !password) {
     return res.status(400).send('All fields are required.');
   }
-  //if username and password ARE both present, make query to db
+  
   const userQuery = `SELECT * FROM users WHERE username = $1 LIMIT 1`;
   
-  //I THINK this is the right set up to use the $1 and all that
   db.query(userQuery, [username])
     .then((data) => {
       // if no user with username given exists
@@ -69,15 +70,17 @@ userController.login = (req, res, next) => {
         return res.status(400).send('Invalid credentials, please try logging in again.');
       }
       //store data on res.locals.userData -- should contain username and password
-      console.log('data', data);
       const user = data.rows[0];
-      console.log('this is the user', user);
+      console.log('user', user)
       bcrypt.compare(password, user.password)
         .then((isMatch) => {
-          console.log('bcrypt data', isMatch);
           if (isMatch) {
             res.locals.validUser = true;
-            next();
+            res.locals.user = {
+              username: user.username,
+              userId: user._id
+            }
+            return next();
           } else {
             res.locals.validUser = false;
             return res.status(400).send('Invalid credentials, please try logging in again.');
@@ -98,6 +101,56 @@ userController.login = (req, res, next) => {
       })
     });
 };
+
+
+// generates a jwt token and assigns it to a response body 
+userController.generateToken = (req, res, next) => {
+  const JWT_SECRET = process.env.JWT_SECRET;
+
+  const accessToken =  jwt.sign({ 
+    userId: res.locals.user.userId,
+    username: res.locals.user.username
+  }, JWT_SECRET, { expiresIn: '7d'}); 
+
+  res.locals.token = accessToken;
+
+  return next();
+}
+
+
+// authenticates a user based on whether a req cookie called 'jwt'
+// contains valid information to 
+userController.verifyToken = (req, res, next) => {
+
+  const authStatus = {
+    isAuthenticated: false, 
+    userId: null
+  }
+
+  const JWT_SECRET = process.env.JWT_SECRET;
+  if (!req.cookies.jwt) {
+    res.status(400);
+    return next({ message: { err: 'Not authenticated'}});
+  }
+  jwt.verify(req.cookies.jwt, JWT_SECRET, (err, decoded) => {
+    if (err) { 
+      return next({ message: { err: 'Error in userController verify token'}})
+    }
+    // decoded will be undefined if tokens do not match 
+    if (decoded) {
+      authStatus.isAuthenticated = true; 
+      authStatus.userId = decoded.userId; 
+      res.locals.authStatus = authStatus;
+      res.status(200);
+      return next();
+    } else {
+      res.status(400);
+      return next({ message: { err: 'Not authenticated' }})
+    }
+  })
+}
+
+
 
 module.exports = userController;
 

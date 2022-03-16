@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 // const PG_URI = process.env.PG_URI;
 const userController = {};
 
+const salt = Number(process.env.SALT);
+
 //new user controller
 userController.newUser = (req, res, next) => {
   console.log('in userController.newUser', req.body);
@@ -14,49 +16,35 @@ userController.newUser = (req, res, next) => {
     return res.status(400).send('All fields are required.');
   }
 
-  // try {
-  //   const hash = bcrypt.hash(password, 10);
-  //   const queryResults = await db.query()
-  // }
-  // bcrypt.hash(password, 10)
-  //   .then(hash => {
-  //     db.query()
-  //       .then(data=> {
-  //         if (data.password === hash) {
-
-  //         }
-  //       })
-  //   })
-  //   .catch(e )
-
-
   //if data valid, insert new data into table -- will encrypt password eventuall
   //didn't include _id because I think that will be auto-generated -- I may be mistaked
   //do error handling for non-unique username
   //have res.locals.validUser = true if username NOT already in db, else false
   const newUserQuery = `INSERT into users (username, password) VALUES ($1, $2) RETURNING _id`;
 
-
-  //I believe this is the corrected syntax for using paramterized queries
-  db.query(newUserQuery, [username, password])
-    .then((data) => {
-
-
-      console.log('the query for new user was successful. This is the response: ', data);
-      return next();
+  bcrypt.hash(password, salt)
+    .then((hash) => {
+      //I believe this is the corrected syntax for using paramterized queries
+      db.query(newUserQuery, [username, hash])
+        .then((data) => {
+          console.log('the query for new user was successful. This is the response: ', data);
+          res.locals.validUser = true;
+          res.locals.userID = data.rows[0]._id;
+          return next();
+        })
+        .catch((err) => {
+          console.log('the query for new user returned an error: ', err);
+          // query violates unique constraint (likely on username)
+          if (Number(err.code) === 23505) {
+            res.locals.validUser = false;
+            return res.status(400).json(res.locals);
+          } 
+          return next({
+            log: 'Error in userController.newUser',
+            message: { err: err.error },
+          });
+        });
     })
-    .catch((err) => {
-      console.log('the query for new user returned an error: ', err);
-      // query violates unique constraint (likely on username)
-      if (Number(err.code) === 23505) {
-        res.locals.validUser = false;
-        return res.status(400).json(res.locals);
-      } 
-      return next({
-        log: 'Error in userController.newUser',
-        message: { err: err.error },
-      });
-    });
 };
 
 
@@ -84,9 +72,17 @@ userController.login = (req, res, next) => {
       console.log('data', data);
       const user = data.rows[0];
       console.log('this is the user', user);
-      if (user.password === password) {
-        next();
-      }
+      bcrypt.compare(password, user.password)
+        .then((isMatch) => {
+          console.log('bcrypt data', isMatch);
+          if (isMatch) {
+            res.locals.validUser = true;
+            next();
+          } else {
+            res.locals.validUser = false;
+            return res.status(400).send('Invalid credentials, please try logging in again.');
+          }
+        });
     })
     .catch((err) => {
       console.log('this is the error from login', err);

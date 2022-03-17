@@ -1,14 +1,21 @@
 $white: #FFFCF5;
 $green: #008000;
+// $pastelGreen: #C1E1C1;
 
 html, body {
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
+  display: flex;
+  flex-direction: column;
   font-family: 'Roboto', sans-serif;
   color: $green;
   background-color: $white;
 }
 
+div {
+  display: flex;
+  flex-direction: column;
+}
 // .navbar {
 //   padding: 1em;
 //   position: fixed;
@@ -20,3 +27,16 @@ html, body {
   list-style: none;
   line-height: 2;
 }
+
+input {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+  border-radius: 3px;
+  // background-color: $pastelGreen;
+}
+
+input:focus {
+  outline: none;
+}
+

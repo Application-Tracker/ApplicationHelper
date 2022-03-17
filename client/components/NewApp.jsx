@@ -71,7 +71,7 @@ const NewApp = (props) => {
   return (
     <>
       <Navbar /> 
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+      <br />
       <div>NewApp</div> 
       <br />
       <div>

@@ -1,6 +1,7 @@
-$white: #FFFCF5;
-$green: #008000;
-// $pastelGreen: #C1E1C1;
+$white: #eef7f8;
+$green: #243563;
+$gray: #f3fcfb;
+
 
 html, body {
   // width: 100%;
@@ -31,9 +32,17 @@ div {
 input {
   display: flex;
   flex-direction: column;
-  border: 1px solid #000;
+  border: 1px solid $green;
+  margin: 3px;
   border-radius: 3px;
-  // background-color: $pastelGreen;
+  background-color: $gray;
+}
+
+button {
+  margin: 3px;
+  border: 1px solid $green;
+  border-radius: 3px;
+  background-color: $gray;
 }
 
 input:focus {

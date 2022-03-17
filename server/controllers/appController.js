@@ -13,14 +13,14 @@ appController.newApp = (req, res, next) => {
   `INSERT INTO applications 
   (user_id, status, date_created, date_applied, company, position, notes, description)
   VALUES 
-  ($1, $2, $3, $4, $5, $6, $7, $8)
+  ($1, $2, $3, to_timestamp($4), $5, $6, $7, $8)
   RETURNING *`;
 
   const params = [
     userId, 
     status, 
-    new Date().toUTCString(),
-    new Date(dateApplied).toUTCString(),
+    new Date(),
+    new Date(dateApplied),
     company,
     position,  
     notes, 

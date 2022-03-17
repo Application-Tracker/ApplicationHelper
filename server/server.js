@@ -16,8 +16,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // allow the app to use cookieparser
 app.use(cookieParser());
-
-app.use(userController.verifyToken);
+/* middleware to assign to res.locals 
+an authStatus property = {
+  isAuthenticated: boolean, 
+  userId: integer or null,
+}
+*/
+// app.use(userController.verifyToken);
 
 //use router for anthing to /api endpoint
 app.use('/api', router);

@@ -1,10 +1,51 @@
-$white: #FFFCF5;
-$green: #008000;
+$white: #eef7f8;
+$green: #243563;
+$gray: #f5f9fa;
+
 
 html, body {
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
+  display: flex;
+  flex-direction: column;
   font-family: 'Roboto', sans-serif;
   color: $green;
   background-color: $white;
 }
+
+div {
+  display: flex;
+  flex-direction: column;
+}
+// .navbar {
+//   padding: 1em;
+//   position: fixed;
+// }
+
+.ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  line-height: 2;
+}
+
+input {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $green;
+  margin: 3px;
+  border-radius: 3px;
+  background-color: $gray;
+}
+
+button {
+  margin: 3px;
+  border: 1px solid $green;
+  border-radius: 3px;
+  background-color: $gray;
+}
+
+input:focus {
+  outline: none;
+}
+
